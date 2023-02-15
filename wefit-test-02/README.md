@@ -51,6 +51,8 @@
 
 A E-commerce website created for succed on challenge of WeFit company.
 
+All data rendered on the website is mocked by using Next.js so as soon as you do "yarn dev" you will see instand data for that reason.
+
 ## :sparkles: Features
 
 :heavy_check_mark: Add and Remove Items of Shopping Cart;\
@@ -77,16 +79,18 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 
 ```bash
 # Clone this project
-$ git clone https://github.com/harlleybastos/wefit_challenge
+$ git clone https://github.com/harlleybastos/wefit-challenges
 
 # Access
-$ cd wefit_challenge
+$ cd wefit-challenges/wefit-test-02
 
 # Install dependencies
-$ yarn
+$ yarn install
 
 # Run the project
-$ yarn start
+$ yarn dev
+
+# IMPORANT: It will run the backend server too so as I said on about section all the data rendered here is mocked on the Backend of Next.js.
 
 # The server will initialize in the <http://localhost:3000>
 ```
