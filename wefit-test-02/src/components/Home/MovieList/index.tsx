@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React from "react";
 import Image from "next/image";
 
 import {
@@ -11,7 +11,7 @@ import {
 } from "./styles";
 
 import { Open_Sans } from "@next/font/google";
-import { ShoppingContext } from "@/context/ShopContext";
+import { useShoppingCart } from "@/context/ShopContext";
 import { ShapeProduct } from "@/types";
 
 type Props = {
@@ -26,50 +26,55 @@ const openSans = Open_Sans({
 });
 
 const MovieList: React.FC<Props> = ({ data: { movies } }) => {
-  const [activeItems, setActiveItems] = useState<ShapeProduct[]>([]);
-
-  const contextMovies = useContext(ShoppingContext);
+  const { shopItems, getItemQuantity, increaseProductQuantity } =
+    useShoppingCart();
 
   return (
     <Container>
-      {movies.map((movie, index) => (
-        <GridItem key={index}>
-          <Image
-            alt={movie.title}
-            src={movie.image}
-            priority
-            width={147}
-            height={188}
-          />
-          <MovieTitle className={openSans.className}>{movie.title}</MovieTitle>
-          <MoviePrice className={openSans.className}>
-            R$ {movie.price.toString().replace(".", ",")}
-          </MoviePrice>
+      {movies.map((movie, index) => {
+        const quantity = getItemQuantity(movie.id);
 
-          <AddMovieButton
-            className={openSans.className}
-            type="button"
-            onClick={() =>
-              contextMovies?.handleSelectMovie(movie, setActiveItems)
-            }
-            isEnabled={activeItems?.includes(movie)}
-          >
+        return (
+          <GridItem key={index}>
             <Image
-              alt="Adicionar no carrinho"
-              src="/images/add_cart_icon.svg"
+              alt={movie.title!}
+              src={movie.image!}
               priority
-              width={11}
-              height={11}
+              width={147}
+              height={188}
             />
-            <MoviesAddedCounter className={openSans.className}>
-              {contextMovies?.shopItems.includes(movie) ? 1 : 0}
-            </MoviesAddedCounter>
-            {contextMovies?.shopItems.includes(movie)
-              ? "Item Adicionado".toUpperCase()
-              : "Adicionar ao Carrinho".toUpperCase()}
-          </AddMovieButton>
-        </GridItem>
-      ))}
+            <MovieTitle className={openSans.className}>
+              {movie.title}
+            </MovieTitle>
+            <MoviePrice className={openSans.className}>
+              R$ {movie.price!.toString().replace(".", ",")}
+            </MoviePrice>
+
+            <AddMovieButton
+              className={openSans.className}
+              type="button"
+              onClick={() => {
+                increaseProductQuantity(movie);
+              }}
+              isEnabled={shopItems[index]?.id === movie.id}
+            >
+              <Image
+                alt="Adicionar no carrinho"
+                src="/images/add_cart_icon.svg"
+                priority
+                width={11}
+                height={11}
+              />
+              <MoviesAddedCounter className={openSans.className}>
+                {quantity}
+              </MoviesAddedCounter>
+              {shopItems[index]?.id === movie.id
+                ? "Item Adicionado".toUpperCase()
+                : "Adicionar ao Carrinho".toUpperCase()}
+            </AddMovieButton>
+          </GridItem>
+        );
+      })}
     </Container>
   );
 };

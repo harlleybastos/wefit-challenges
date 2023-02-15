@@ -10,6 +10,12 @@ export const Container = styled.div`
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 16px;
   margin: 0 auto;
+
+  @media only screen and (max-width: 375px) {
+    grid-template-columns: 1fr;
+    margin-right: 16px;
+    margin-left: 16px;
+  }
 `;
 
 export const GridItem = styled.div`
@@ -21,6 +27,12 @@ export const GridItem = styled.div`
   padding: 0.625rem; /* 10px */
   width: 309.33px;
   height: 305px;
+  border-radius: 4px;
+
+  @media only screen and (max-width: 375px) {
+    width: 100%;
+    height: 305px;
+  }
 `;
 
 export const MovieTitle = styled.p`

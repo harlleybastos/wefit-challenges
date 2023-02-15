@@ -1,23 +1,33 @@
-import Navbar from "@/components/shared/Navbar";
 import Head from "next/head";
 import axios from "axios";
 import { InferGetStaticPropsType } from "next";
 import { ShapeProduct } from "@/types";
 import MovieList from "@/components/Home/MovieList";
+import { useState } from "react";
+import Loader from "@/components/Home/Loader";
 
 export default function Home({
   data,
 }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   return (
     <>
-      <Head>
-        <title>Challenge WeFit</title>
-        <meta name="description" content="Challenge WeFit" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Navbar />
-      <MovieList data={data} />
+      {!isLoading ? (
+        <>
+          <Head>
+            <title>Challenge WeFit</title>
+            <meta name="description" content="Challenge WeFit" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <MovieList data={data} />
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styled from "styled-components";
 import { ListProps } from "./types";
 
@@ -18,6 +19,12 @@ export const ContainerList = styled.ul`
   justify-content: space-between;
   align-items: center;
   width: 100%;
+
+  @media only screen and (max-width: 375px) {
+    margin-top: 21.5px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
 `;
 
 export const List = styled.li<ListProps>`
@@ -26,9 +33,11 @@ export const List = styled.li<ListProps>`
   flex-direction: ${({ isColumn }) => (isColumn ? "column" : "row")};
 `;
 
-export const MainTitle = styled.p`
+export const MainTitle = styled(Link)`
   font-size: 1.25rem /* 20px */;
   font-weight: 700;
+  text-decoration: none;
+  color: #fff;
 `;
 
 export const SubTitle = styled.p`
@@ -53,7 +62,7 @@ export const ShoppingCartText = styled.div`
   align-items: flex-end;
 `;
 
-export const ShoppingCartButton = styled.button`
+export const ShoppingCartButton = styled(Link)`
   margin-left: 0.5831rem; /* 9.33px */
   background: transparent;
   border: none;

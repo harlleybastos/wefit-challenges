@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useMemo } from "react";
 
 import Image from "next/image";
 
@@ -16,8 +16,7 @@ import {
 } from "./styles";
 
 import { Open_Sans } from "@next/font/google";
-
-import { ShoppingContext } from "@/context/ShopContext";
+import { useShoppingCart } from "@/context/ShopContext";
 
 const openSans = Open_Sans({
   weight: ["400", "600", "700"],
@@ -25,24 +24,34 @@ const openSans = Open_Sans({
 });
 
 const Navbar = (): JSX.Element => {
-  const contextMovies = useContext(ShoppingContext);
+  const { shopItems } = useShoppingCart();
+
+  const handleRedirect = useMemo(() => {
+    return shopItems.length === 0 ? "/cart/no-item-added" : "/cart";
+  }, [shopItems.length]);
 
   return (
     <Container>
       <Nav>
         <ContainerList>
           <List isColumn={false}>
-            <MainTitle className={openSans.className}>WeMovies</MainTitle>
+            <MainTitle className={openSans.className} href="/">
+              WeMovies
+            </MainTitle>
           </List>
           <ShoppingCartContainer>
             <ShoppingCartText>
               <BaseTitle className={openSans.className}>Meu Carrinho</BaseTitle>
               <SubTitle className={openSans.className}>
-                {contextMovies?.shopItems.length} itens
+                {shopItems.length} itens
               </SubTitle>
             </ShoppingCartText>
 
-            <ShoppingCartButton type="button" aria-label="Carrinho de Compras">
+            <ShoppingCartButton
+              type="button"
+              aria-label="Carrinho de Compras"
+              href={handleRedirect}
+            >
               <Image
                 priority
                 src="/images/shopping-cart-icon.svg"
