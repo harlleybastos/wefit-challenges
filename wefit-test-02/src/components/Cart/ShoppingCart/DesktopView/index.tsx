@@ -141,7 +141,7 @@ const DesktopView = () => {
               type="button"
               margin="0"
               align="flex-end"
-              onClick={() => removeFromCart(row)}
+              onClick={() => removeFromCart(row.original)}
             >
               <Image
                 alt="Remover"
