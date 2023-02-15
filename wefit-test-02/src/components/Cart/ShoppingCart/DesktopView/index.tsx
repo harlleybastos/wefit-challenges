@@ -22,6 +22,8 @@ import {
 
 import { Open_Sans } from "@next/font/google";
 
+import { useRouter } from "next/router";
+
 const openSans = Open_Sans({
   weight: ["400", "600", "700"],
   subsets: ["latin"],
@@ -35,6 +37,7 @@ const DesktopView = () => {
     sumOfCheckout,
     decreaseProductQuantity,
   } = useShoppingCart();
+  let router = useRouter();
 
   const columns = useMemo(
     () => [
@@ -141,7 +144,12 @@ const DesktopView = () => {
               type="button"
               margin="0"
               align="flex-end"
-              onClick={() => removeFromCart(row.original)}
+              onClick={() => {
+                removeFromCart(row.original);
+                if (shopItems.length === 1) {
+                  router.push("/");
+                }
+              }}
             >
               <Image
                 alt="Remover"
@@ -159,6 +167,7 @@ const DesktopView = () => {
       decreaseProductQuantity,
       increaseProductQuantity,
       removeFromCart,
+      router,
       shopItems,
     ]
   );

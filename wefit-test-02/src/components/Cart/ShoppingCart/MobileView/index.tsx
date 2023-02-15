@@ -2,6 +2,7 @@ import Text from "@/components/shared/Text";
 import { useShoppingCart } from "@/context/ShopContext";
 import { Open_Sans } from "@next/font/google";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React from "react";
 import {
   Button,
@@ -29,6 +30,7 @@ const MobileView: React.FC = () => {
     sumOfCheckout,
     setShopItems,
   } = useShoppingCart();
+  let router = useRouter();
 
   return (
     <Container>
@@ -110,7 +112,12 @@ const MobileView: React.FC = () => {
                   margin="0"
                   align="center"
                   className={openSans.className}
-                  onClick={() => removeFromCart(movie)}
+                  onClick={() => {
+                    removeFromCart(movie);
+                    if (shopItems.length === 1) {
+                      router.push("/");
+                    }
+                  }}
                 >
                   <Image
                     alt="Remover"
